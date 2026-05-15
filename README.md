@@ -154,6 +154,8 @@ Ten adres wpisz w telefonie.
 
 GitHub będzie miejscem, gdzie trzymasz kod aplikacji.
 
+W tej paczce jest już plik `.env.production` z adresem Supabase. Dzięki temu przy publikacji przez GitHub Pages nie musisz ręcznie dodawać sekretów GitHub. Aplikacja po zbudowaniu będzie łączyć się z Supabase automatycznie.
+
 ### 4.1. Utwórz repozytorium
 
 1. Wejdź na https://github.com
@@ -181,31 +183,13 @@ Zamień `TWOJ_LOGIN` na swój login GitHub.
 
 Jeśli GitHub poprosi o logowanie, zaloguj się zgodnie z instrukcją w terminalu albo użyj aplikacji GitHub Desktop.
 
-## 5. Ustawienia sekretów na GitHub
-
-Sekrety to bezpieczne miejsce na dane Supabase potrzebne podczas publikacji.
-
-1. Wejdź do repozytorium na GitHub.
-2. Kliknij `Settings`.
-3. W lewym menu kliknij `Secrets and variables`.
-4. Kliknij `Actions`.
-5. Kliknij `New repository secret`.
-6. Dodaj pierwszy sekret:
-   - `Name`: `VITE_SUPABASE_URL`
-   - `Secret`: wklej `Project URL` z Supabase.
-7. Kliknij `Add secret`.
-8. Dodaj drugi sekret:
-   - `Name`: `VITE_SUPABASE_ANON_KEY`
-   - `Secret`: wklej `anon public key` z Supabase.
-9. Kliknij `Add secret`.
-
-## 6. Publikacja przez GitHub Pages
+## 5. Publikacja przez GitHub Pages
 
 W projekcie jest już gotowy plik publikacji:
 
 [.github/workflows/deploy-github-pages.yml](./.github/workflows/deploy-github-pages.yml)
 
-### 6.1. Włącz GitHub Pages
+### 5.1. Włącz GitHub Pages
 
 1. Wejdź do repozytorium na GitHub.
 2. Kliknij `Settings`.
@@ -213,7 +197,7 @@ W projekcie jest już gotowy plik publikacji:
 4. Przy `Source` wybierz `GitHub Actions`.
 5. Zapisz ustawienia, jeśli GitHub pokaże przycisk zapisu.
 
-### 6.2. Uruchom publikację
+### 5.2. Uruchom publikację
 
 Publikacja uruchomi się automatycznie po każdym `git push` na gałąź `main`.
 
@@ -230,7 +214,7 @@ Po kilku minutach strona będzie dostępna pod adresem podobnym do:
 https://TWOJ_LOGIN.github.io/szpieg/
 ```
 
-## 7. Publikacja przez Netlify, prostsza alternatywa
+## 6. Publikacja przez Netlify, prostsza alternatywa
 
 Netlify jest często łatwiejsze dla początkujących niż GitHub Pages.
 
@@ -243,11 +227,7 @@ Netlify jest często łatwiejsze dla początkujących niż GitHub Pages.
 7. Ustaw:
    - `Build command`: `npm run build`
    - `Publish directory`: `dist`
-8. Otwórz sekcję `Environment variables`.
-9. Dodaj:
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
-10. Kliknij `Deploy`.
+8. Kliknij `Deploy`.
 
 Netlify pokaże adres strony, np.:
 
@@ -255,7 +235,7 @@ Netlify pokaże adres strony, np.:
 https://szpieg-twojanazwa.netlify.app
 ```
 
-## 8. Jak sprawdzić, czy wszystko działa
+## 7. Jak sprawdzić, czy wszystko działa
 
 1. Otwórz opublikowaną aplikację.
 2. Kliknij `Utwórz pokój`.
@@ -271,7 +251,7 @@ https://szpieg-twojanazwa.netlify.app
 12. Gracze oddają głosy.
 13. Aplikacja pokazuje wynik.
 
-## 9. Najczęstsze problemy
+## 8. Najczęstsze problemy
 
 ### Aplikacja mówi: `Uzupełnij konfigurację Supabase`
 
@@ -287,12 +267,14 @@ Sprawdź Realtime w Supabase. Tabele `rooms`, `players` i `votes` muszą być do
 
 ### GitHub Pages pokazuje pustą stronę
 
-Sprawdź zakładkę `Actions` w GitHub. Jeśli workflow jest czerwony, kliknij go i zobacz błąd. Najczęstszy powód to brak sekretów `VITE_SUPABASE_URL` i `VITE_SUPABASE_ANON_KEY`.
+Sprawdź zakładkę `Actions` w GitHub. Jeśli workflow jest czerwony, kliknij go i zobacz błąd.
 
 ### Komenda `npm` nie działa
 
 Zainstaluj Node.js LTS z https://nodejs.org i otwórz terminal ponownie.
 
-## 10. Ważna uwaga o bezpieczeństwie
+## 9. Ważna uwaga o bezpieczeństwie
 
 Ta wersja jest MVP do gry imprezowej bez logowania. Aplikacja pozwala anonimowym użytkownikom tworzyć pokoje, dołączać i głosować. To jest dobre na start, ale przy publicznej aplikacji z dużym ruchem warto później dodać mocniejsze zabezpieczenia po stronie Supabase.
+
+Plik `.env.production` zawiera publiczny klucz Supabase przeznaczony do aplikacji w przeglądarce. Nie należy tam nigdy wpisywać hasła do bazy danych ani klucza `service_role`.
